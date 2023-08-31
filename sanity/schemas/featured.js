@@ -18,8 +18,8 @@ export default defineType({
     }),
     defineField({
       name: 'restaurants',
-      title: 'array',
-      type: 'Restaurant',
+      title: 'Restaurant',
+      type: 'array',
       of: [{type: 'reference', to: [{type: 'restaurant'}]}],
     }),
   ],
