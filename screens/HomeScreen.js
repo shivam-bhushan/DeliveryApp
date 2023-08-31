@@ -73,18 +73,6 @@ const HomeScreen = () => {
         <Categories />
 
         {/* Featured Row */}
-        <FeaturedRow
-          id="1234"
-          title="Featured"
-          description="Paid placement from our trusted partners"
-        />
-
-        {/* Discounts */}
-        <FeaturedRow
-          id="123"
-          title="Tasty Discounts"
-          description="Juicy discounts for you"
-        />
 
         {/* Offers */}
         <FeaturedRow
