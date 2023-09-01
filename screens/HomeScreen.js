@@ -5,7 +5,6 @@ import {
   Image,
   TextInput,
   ScrollView,
-  ScrollViewBase,
 } from "react-native";
 import React, { useLayoutEffect, useState, useEffect, then } from "react";
 import { useNavigation } from "@react-navigation/native";
