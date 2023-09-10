@@ -5,7 +5,7 @@ import { urlFor } from "../sanity";
 
 const DishRow = ({ id, name, description, price, image }) => {
   return (
-    <TouchableOpacity className="flex-row justify-between px-4 py-3 bg-white rounded-lg my-1">
+    <TouchableOpacity className="flex-row justify-between px-4 mx-2 py-3 bg-white rounded-lg my-1 shadow">
       <View>
         <Text className="font-medium text-lg mb-1">{name}</Text>
         <Text className="text-gray-600 w-56">{description}</Text>

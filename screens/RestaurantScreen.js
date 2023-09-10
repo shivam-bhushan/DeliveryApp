@@ -47,7 +47,7 @@ const RestaurantScreen = () => {
           onPress={naviagtion.goBack}
           className="absolute top-14 left-5 bg-gray-100 rounded-full p-3"
         >
-          <ArrowLeftIcon size={20} className="text-red-300" strokeWidth="2" />
+          <ArrowLeftIcon size={20} color="red" opacity={0.6} />
         </TouchableOpacity>
       </View>
 
