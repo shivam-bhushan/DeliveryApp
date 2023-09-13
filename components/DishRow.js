@@ -1,53 +1,78 @@
-import { View, Text, TouchableOpacity, Image } from "react-native";
 import React, { useState } from "react";
+import { View, Text, TouchableOpacity, Image } from "react-native";
 import Currency from "react-currency-formatter";
+import * as Icons_S from "react-native-heroicons/solid";
 import { urlFor } from "../sanity";
-import { MinusCircleIcon, PlusCircleIcon } from "react-native-heroicons/solid";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  addToBasket,
+  removeFromBasket,
+  selectBasketItems,
+  selectBasketItemsWithId,
+} from "../features/basketSlice";
 
 const DishRow = ({ id, name, description, price, image }) => {
   const [isPressed, setIsPressed] = useState(false);
+
+  // const items = useSelector(selectBasketItems);
+  const items = useSelector((state) => selectBasketItemsWithId(state, id));
+
+  const dispatch = useDispatch();
+
+  const addItemToBasket = () => {
+    dispatch(addToBasket({ id, name, description, price, image }));
+  };
+
+  const removeItemFromBasket = () => {
+    if (!items.length > 0) return;
+    dispatch(removeFromBasket({ id }));
+  };
+
+  // console.log(items);
   return (
     <>
       <TouchableOpacity
         onPress={() => setIsPressed(!isPressed)}
-        className="flex-row justify-between px-4 mx-2 py-2 bg-white rounded-lg mt-2 shadow"
+        className={`bg-white border p-4 border-gray-200 ${
+          isPressed && "border-b-0"
+        }`}
       >
-        <View>
-          <Text className="font-medium text-lg mb-1">{name}</Text>
-          <Text className="text-gray-600 w-56">{description}</Text>
-          <Text className="text-gray-600 mt-2">
-            <Currency quantity={price} currency="INR" />
-          </Text>
-        </View>
-        <View className="flex-col items-center">
-          <Image
-            style={{ borderWidth: 1, borderColor: "gray" }}
-            source={{ uri: urlFor(image).url() }}
-            className="h-20 w-20 bg-gray-300 p-4 rounded-lg"
-          />
+        <View className="flex-row items-center">
+          <View className="flex-1 pr-2">
+            <Text className="text-lg mb-1">{name}</Text>
+            <Text className="text-gray-400 text-justify">{description}</Text>
+            <Text className="text-gray-400 mt-2">
+              <Currency quantity={price} currency="INR" />
+            </Text>
+          </View>
+
+          <View>
+            <Image
+              style={{ borderWidth: 1, borderColor: "#f3f3f4" }}
+              className="h-20 w-20 rounded-3xl bg-gray-300 p-4"
+              source={{ uri: urlFor(image).url() }}
+            />
+          </View>
         </View>
       </TouchableOpacity>
-      {/* <View className="flex-row-reverse px-5 py-2">
-        <TouchableOpacity>
-          <PlusCircleIcon size={35} color="green" opacity={0.6} />
-        </TouchableOpacity>
-        <Text>{itemCount}</Text>
-        <TouchableOpacity>
-          <MinusCircleIcon size={35} color="green" opacity={0.6} />
-        </TouchableOpacity>
-      </View> */}
 
       {isPressed && (
-        <View className=" px-2 mx-2 pt-1 rounded-lg my-1 shadow-sm">
-          <View className="flex-row items-center justify-end space-x-2  ">
-            <TouchableOpacity>
-              <MinusCircleIcon size={35} opacity={0.8} />
+        <View className="bg-white px-4">
+          <View className="flex-row items-center space-x-3 pt-2 pb-3">
+            <TouchableOpacity
+              disabled={!items.length}
+              onPress={removeItemFromBasket}
+            >
+              <Icons_S.MinusCircleIcon
+                size={40}
+                color={items.length > 0 ? "#00ccbb" : "gray"}
+              />
             </TouchableOpacity>
 
-            <Text className="text-base text-gray-500">0</Text>
+            <Text>{items.length}</Text>
 
-            <TouchableOpacity>
-              <PlusCircleIcon size={35} opacity={0.8} />
+            <TouchableOpacity onPress={addItemToBasket}>
+              <Icons_S.PlusCircleIcon size={40} color={"#00ccbb"} />
             </TouchableOpacity>
           </View>
         </View>
