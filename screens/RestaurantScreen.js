@@ -1,5 +1,5 @@
 import { View, Text, ScrollView, Image, TouchableOpacity } from "react-native";
-import React, { useLayoutEffect } from "react";
+import React, { useEffect, useLayoutEffect } from "react";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { urlFor } from "../sanity";
 import {
@@ -13,9 +13,13 @@ import {
 } from "react-native-heroicons/outline";
 import DishRow from "../components/DishRow";
 import BasketIcon from "../components/BasketIcon";
+import { useDispatch } from "react-redux";
+import { setRestaurant } from "../features/restaurantSlice";
 
 const RestaurantScreen = () => {
-  const naviagtion = useNavigation();
+  const navigation = useNavigation();
+  const dispatch = useDispatch();
+
   const {
     params: {
       id,
@@ -31,8 +35,25 @@ const RestaurantScreen = () => {
     },
   } = useRoute();
 
+  useEffect(() => {
+    dispatch(
+      setRestaurant({
+        id,
+        imgUrl,
+        title,
+        rating,
+        genre,
+        address,
+        short_description,
+        dishes,
+        long,
+        lat,
+      })
+    );
+  }, []);
+
   useLayoutEffect(() => {
-    naviagtion.setOptions({
+    navigation.setOptions({
       headerShown: false,
     });
   }, []);
@@ -47,7 +68,7 @@ const RestaurantScreen = () => {
             className="w-full h-56 bg-gray-300 p-3"
           />
           <TouchableOpacity
-            onPress={naviagtion.goBack}
+            onPress={navigation.goBack}
             className="absolute top-14 left-5 bg-gray-100 rounded-full p-3"
           >
             <ArrowLeftIcon size={20} color="red" opacity={0.6} />
